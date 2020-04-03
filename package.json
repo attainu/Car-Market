@@ -1,20 +1,26 @@
 {
-  "name": "Car-Market",
+  "name": "passportjwt",
   "version": "1.0.0",
-  "description": "Project done by Prakash and Shashi",
-  "main": "index.js",
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/attainu/Car-Market.git"
-  },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/attainu/Car-Market/issues"
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.7",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
   },
-  "homepage": "https://github.com/attainu/Car-Market#readme"
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
 }
