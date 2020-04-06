@@ -2,12 +2,13 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const config = require('../config/database');
-
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = function(app,passport){
-    app.get('/',function(req,res){
+   /* app.get('/',function(req,res){
         res.json('welcome to the car market app')
-    });
+    }); */
     
     app.post('/register',(req,res) => {
         let newUser = new User({
@@ -39,7 +40,7 @@ module.exports = function(app,passport){
             User.comparePassword(password,user.password,(err,isMatch) => {
                 if(err) throw err ;
                 if(isMatch) {
-                    const token = jwt.sign(user.toJSON(),config.secret,{expiresIn:604800});
+                    const token = jwt.sign(user.toJSON(),process.env.secretKey,{expiresIn:604800});
                     res.json({success:true,token:'JWT '+token,user:{
                         id:user._id,
                         name:user.name,

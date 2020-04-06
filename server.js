@@ -1,41 +1,27 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const path = require('path')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const cors = require('cors')
 const passport = require('passport')
-
-const config = require('./config/database')
-const port = process.env.PORT || 8080
+const dotenv = require('dotenv')
 const app = express();
+dotenv.config();
+require('./config/database')
 
-//connect to Database
-mongoose.connect(config.db)
-//on connection
-mongoose.connection.on('connected',() =>{
-    console.log('connected to database '+config.db);
-})
-//if any error when connection to databse
-mongoose.connection.on('error',(err) => {
-    console.log("database error:"+err);
-})
+const carsRoutes = require('./routes/cars');
+const orderRoutes = require('./routes/orders');
 
+app.use(morgan('dev'));
 
-//node server will point our index file will be displayed into the browser
-//set static folder
-app.use(express.static(path.join(__dirname + '/client')))
-
-//body aprser middleware
+//body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(morgan('dev'));
-//cors middleware
-app.use(cors({
-    origin:"http://localhost:1234",
-    allowedHeaders:["Content-Type"]
-    //credentials: true
-}));
+
+const port = process.env.PORT || 8080
+
+app.use('/cars',carsRoutes);
+app.use('/orders',orderRoutes);
+
 //passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -44,6 +30,24 @@ require('./config/passport')(passport)
 // require all the routes through appa and passport
 require('./routes/routes')(app,passport);
 
+
+
+
+//Error hndleres
+app.use((req,res,next) => {
+    const error = new Error('Not Found');
+    error.status=404;
+    next(error);
+})
+//Error handler for DAtabae
+app.use((error,req,res,next) => {
+    res.status(error.status || 500);
+    res.json({
+        error:{
+            message:error.message
+        }
+    })
+})
 
 
 app.listen(port,function(){
