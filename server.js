@@ -1,13 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
-const mongoose = require('mongoose')
-const passport = require('passport')
 const dotenv = require('dotenv')
 const app = express();
 dotenv.config();
 require('./config/database')
 
+
+const userRoutes = require('./routes/user')
 const carsRoutes = require('./routes/cars');
 const orderRoutes = require('./routes/orders');
 
@@ -19,17 +19,10 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 const port = process.env.PORT || 8080
 
+
 app.use('/cars',carsRoutes);
 app.use('/orders',orderRoutes);
-
-//passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
-require('./config/passport')(passport)
-
-// require all the routes through appa and passport
-require('./routes/routes')(app,passport);
-
+app.use('/user',userRoutes);
 
 
 

@@ -9,6 +9,7 @@ const carSchema = mongoose.Schema({
     drivenKM:{type: Number, default: 0},
     price:{type: Number, required: true},
     additionINFO:{type: String},
+    sellerPhoneNo:{type:Number,required:true},
     carImage:{type:String, required: true}
 });
 
