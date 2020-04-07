@@ -3,7 +3,6 @@ const config = require('../config/database')
 const bcrypt = require('bcryptjs')
 
 const userSchema = mongoose.Schema({
-    
     name:{
         type:String,
         required:true
@@ -11,37 +10,18 @@ const userSchema = mongoose.Schema({
     email:{
         type:String,
         required:true,
-        unique: true
+        unique: true,
+        match:/^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/
     },
     password:{
         type:String,
         required:true
     }
+    ,
+    contactNo:{
+        type:Number,
+        required:true
+    }
 });
 
 const User = module.exports = mongoose.model('User',userSchema);
-
-module.exports.getUserById = function(id,cb){
-    User.findById(id,cb);
-}
-
-module.exports.getUserByEmail = function(email,cb){
-    User.findOne({email:email},cb);
-}
-
-module.exports.createUser = function(newUser,cb){
-    bcrypt.genSalt(10,(err,salt) => {
-        bcrypt.hash(newUser.password,salt,(err,hash) => {
-            if(err)  throw err;
-            newUser.password = hash;
-            newUser.save(cb);
-        })
-    })
-}
-
-module.exports.comparePassword = function(myPassword,hash,cb){
-    bcrypt.compare(myPassword,hash,(err,isMatch) => {
-        if(err) throw err;
-        cb(null,isMatch)
-    })
-}

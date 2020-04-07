@@ -1,4 +1,12 @@
-module.exports = {
-    'db':'mongodb://localhost:27017/users',
-    'secret':'prakash'
-}
+const mongoose = require('mongoose');
+
+mongoose
+    .connect(
+        process.env.MONGODB_URI.replace("<password>", process.env.MONGODB_PASSWORD),
+        { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("database connected successfully");
+    })
+    .catch((err) => {
+        console.log(err.message);
+    });
