@@ -16,11 +16,9 @@ const controller = {
         }
     },
     loginUser: async (req,res) => {
-        
-    },
-    deleteUser: async (req,res) => {
-        
-    }
+      
+          }
+    
 }
 
 module.exports = controller

@@ -24,4 +24,5 @@ const userSchema = sequelize.define("users",{
     }
 })
 
+
 module.exports = userSchema

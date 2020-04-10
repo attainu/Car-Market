@@ -9,8 +9,8 @@ const {
 
 
 router.post("/register", registerUser);
-router.get("/login", loginUser);
-router.delete("/:id", deleteUser);
+//router.get("/login", loginUser);
+//router.delete("/:id", deleteUser);
 
 
 
