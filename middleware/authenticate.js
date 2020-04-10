@@ -1,6 +1,9 @@
 var models = require('../db');
 const User = require("../models/user")
 const jwt=require('jsonwebtoken');
+const dotenv = require('dotenv')
+dotenv.config();
+
 
 module.exports={ async authenticate(req,res,next){
     

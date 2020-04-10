@@ -6,6 +6,7 @@ require("./db")
 
 var usersRouter = require('./routes/users');
 var carsRouter = require('./routes/cars')
+var ordersRouter = require('./routes/orders')
 
 var app = express();
 
@@ -18,5 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
 app.use('/cars', carsRouter);
+app.use('/orders',ordersRouter)
 
 module.exports = app;

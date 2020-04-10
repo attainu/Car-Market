@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize")
 const sequelize  = require("../db")
 
 
+
 const userSchema = sequelize.define("users",{
     name:{
         type:DataTypes.STRING,
@@ -25,6 +26,7 @@ const userSchema = sequelize.define("users",{
     }
   
 })
+
 
 
 module.exports = userSchema
