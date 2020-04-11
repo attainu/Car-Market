@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 //importing the car model which have car details
 const Car = require('../models/car');
+const cloudinary = require('cloudinary').v2
+require('../handlers/cloudinary')
+
+
 
 exports.all_cars = (req,res,next)=>{
     Car.find().select("_id brand model price drivenKM carImage").exec().then(docs =>{
@@ -14,23 +18,25 @@ exports.all_cars = (req,res,next)=>{
 
 exports.sell_car = (req,res,next)=>{
     console.log(req.file);
+   cloudinary.uploader.upload(req.file.path).then((result) => {
+   console.log(result)
    
-    const car = new Car ({
-        _id : new mongoose.Types.ObjectId(),
-        brand :req.body.brand,
-        model:req.body.model,
-        year:req.body.year,
-        fuel:req.body.fuel,
-        drivenKM:req.body.drivenKM,
-        price:req.body.price,
-        additionINFO:req.body.additionINFO,
-        sellerPhoneNo :req.body.sellerPhoneNo,
-        carImage:req.file.path
-    }); 
-    car
-    .save()
-    .then(response => {
-        console.log(response);
+   const car = new Car ({
+    _id : new mongoose.Types.ObjectId(),
+    brand :req.body.brand,
+    model:req.body.model,
+    year:req.body.year,
+    fuel:req.body.fuel,
+    drivenKM:req.body.drivenKM,
+    price:req.body.price,
+    additionINFO:req.body.additionINFO,
+    sellerPhoneNo :req.body.sellerPhoneNo,
+    carImage:result.url
+}); 
+car
+.save()
+.then(response => {
+    console.log(response);
         res.status(201).json({ 
             message:"car details added in the Database",
             createdCar :response
@@ -39,6 +45,13 @@ exports.sell_car = (req,res,next)=>{
         console.log(err);
         res.status(500).json({error:err});
     });
+  }).catch((error) => {
+    response.status(500).send({
+      message: "failure",
+      error,
+    });
+  });
+
 }
 
 exports.get_a_car = (req,res,next) => {

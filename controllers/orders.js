@@ -19,7 +19,8 @@ exports.create_order = (req,res,next)=>{
         }
         const order = new Order ({
             _id : mongoose.Types.ObjectId(),
-            car : req.body.carId
+            car : req.body.carId,
+            Created_At:Date(Date.now()).toString()
         });
        return order.save()
     }).then(result => {

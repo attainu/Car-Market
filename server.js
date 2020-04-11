@@ -7,6 +7,7 @@ dotenv.config();
 require('./config/database')
 
 
+
 const userRoutes = require('./routes/user')
 const carsRoutes = require('./routes/cars');
 const orderRoutes = require('./routes/orders');
@@ -46,3 +47,5 @@ app.use((error,req,res,next) => {
 app.listen(port,function(){
     console.log(`server is running on port no : ${port}`)
 })
+
+module.exports = app ;
