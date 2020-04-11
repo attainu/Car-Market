@@ -10,6 +10,7 @@ router.post('/register',UserController.register_user);
     
 router.post('/login',UserController.login_user);
 
+
 router.delete('/:userId',auth,UserController.delete_user);
 
 module.exports = router;
