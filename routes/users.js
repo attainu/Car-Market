@@ -1,22 +1,11 @@
-var express = require('express');
-var router = express.Router();
-const User = require("../models/user")
-const {authenticate}=require('../middleware/authenticate');
-const sequelize  = require("../db")
-const {
-  registerUser,
-  loginUser,
-  logoutUser,
-  deleteUser
-} = require("../controllers/user")
+const express = require('express');
+const router = express.Router();
+
+const registerController = require('../Controllers/Register');
+const loginController = require('../Controllers/Login');
 
 
-router.post("/register", registerUser);
-router.get("/login", loginUser);
-router.delete('/logout',authenticate,logoutUser);
-router.delete("/:id",authenticate, deleteUser);
-
-
-
+router.post('/register', registerController.register);
+router.post('/login', loginController.login);
 
 module.exports = router;

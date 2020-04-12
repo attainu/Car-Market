@@ -1,24 +1,26 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-require("./db")
+const express = require('express');
+const app = express();
+const dotenv = require('dotenv');
 
-var usersRouter = require('./routes/users');
-var carsRouter = require('./routes/cars')
-var ordersRouter = require('./routes/orders')
+//Import Routes
+const usersRoute = require('./Routes/users');
 
-var app = express();
+const favouritesRoute = require('./Routes/favouritesRoute');
+const Cars1Routes = require('./Routes/Cars1Route');
+const OrderRoutes = require('./Routes/OrderRoute');
 
-app.use(logger('dev'));
+
+dotenv.config();
+
+//Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+//Routes Midddlewares
+app.use('/user', usersRoute);
+app.use('/', favouritesRoute);
+app.use('/', Cars1Routes);
+app.use('/', OrderRoutes);
 
 
-app.use('/users', usersRouter);
-app.use('/cars', carsRouter);
-app.use('/orders',ordersRouter)
 
 module.exports = app;

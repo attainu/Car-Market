@@ -1,32 +1,24 @@
-const { DataTypes } = require("sequelize")
-const sequelize  = require("../db")
+const db = require('../Database/connect');
+const Sequelize = require('sequelize');
 
-
-
-const userSchema = sequelize.define("users",{
-    name:{
-        type:DataTypes.STRING,
-        allowNull:true,
-        unique: true,
+let User = db.define('users', {
+    name: {
+        type: Sequelize.STRING,
+        allowNull : false
     },
-    email:{
-        type:DataTypes.STRING,
-        allowNull:true,
-        unique: true,
-        match:/^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/
+    email: {
+        type: Sequelize.STRING,
+        allowNull : false
     },
-    password:{
-        type:DataTypes.STRING,
-        allowNull:true
+    password: {
+        type: Sequelize.STRING,
+        allowNull : false
     }
-    ,
-    contactNo:{
-        type:DataTypes.CHAR(10),
-        allowNull:true
-    }
-  
-})
-
-
-
-module.exports = userSchema
+    
+}, {
+    timestamps: false
+});
+db.sync().then(res=>{
+    console.log('user db has been created');
+});
+module.exports = User;
