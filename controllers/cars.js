@@ -5,7 +5,7 @@ const cloudinary = require('cloudinary').v2
 require('../handlers/cloudinary')
 
 
-
+//Anyone can the all cars which are updated on the website
 exports.all_cars = (req,res,next)=>{
     Car.find().select("_id brand model price drivenKM carImage").exec().then(docs =>{
         console.log(docs);
@@ -16,6 +16,28 @@ exports.all_cars = (req,res,next)=>{
     });
 }
 
+//any user wants to search for car without logging
+exports.search_by_brand = (req,res,next) => {
+   
+   
+    try {
+        const category = req.params.category
+        Car.find({brand:category}).exec().then(response => { 
+                res.status(200).json(response);
+        }).catch(err=> {
+            console.log(err);
+            res.status(500).json({error:err});
+        });
+    } catch (err) {
+        console.log(err);
+        if (err.name === "ValidationError")
+            return res.status(400).send(`Validation Error: ${err.message}`);
+        res.send(err.message);
+    }
+}
+
+
+//these routes need authtication of user
 exports.sell_car = (req,res,next)=>{
     console.log(req.file);
    cloudinary.uploader.upload(req.file.path).then((result) => {
@@ -84,6 +106,9 @@ exports.update_car = (req,res,next) => {
         res.status(500).json({error:err});
     });
 }
+
+
+
 
 exports.delete_car = (req,res,next) => {
     const id = req.params.carId;
