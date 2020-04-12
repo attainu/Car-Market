@@ -148,7 +148,7 @@ exports.change_Password = (req,res,next) => {
         if (!email || !oldPassword || !newPassword)
           return res.status(400).send("Bad request");
         try {
-          console.log(email,oldPassword,newPassword)
+          //console.log(email,oldPassword,newPassword) just for checck
           
          bcrypt.hash(newPassword,10,(err,hash) => {
             if(err) {
@@ -162,13 +162,21 @@ exports.change_Password = (req,res,next) => {
                 })
            }
           });
-
-     
     }
          catch (err) {
           console.log(err.message);
           res.send("incorrect credentials");
     }
+}
+
+
+exports.profile = (req,res,next) => {
+    User.find({_id:req.params.userId}).exec().then(response => {
+        res.status(200).json(response);
+    }).catch(err=> {
+        console.log(err);
+        res.status(500).json({error:err});
+    })
 }
 
 exports.delete_user = (req,res,next) => {

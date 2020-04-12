@@ -13,6 +13,7 @@ router.post('/login',UserController.login_user);
 router.get("/confirmation/:token",UserController.confirmation);
 router.post("/confirmation/:token",UserController.confirmation);
 
+router.get("/profile/:userId",auth,UserController.profile);
 
 router.post("/changepassword", auth, UserController.change_Password);
 
