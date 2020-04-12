@@ -10,10 +10,15 @@ router.post('/register',UserController.register_user);
     
 router.post('/login',UserController.login_user);
 
-//router.post("/logout",logoutUser);
 router.get("/confirmation/:token",UserController.confirmation);
 router.post("/confirmation/:token",UserController.confirmation);
 
+
+router.post("/changepassword", auth, UserController.change_Password);
+
+router.delete('/logout',auth,UserController.logout_user);
+
+//for delete the user via id
 router.delete('/:userId',auth,UserController.delete_user);
 
 module.exports = router;

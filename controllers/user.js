@@ -123,6 +123,54 @@ exports.login_user = (req,res,next) => {
     });
 }
 
+exports.logout_user = (req,res,next) => {
+    try{
+        //check if user is logined
+        if(req.session.userId){
+          //delete the session
+          req.session.destroy();
+          //send success response
+          res.json({ logout_successfull: true });
+        }else{
+          //send error response if user is not logined
+          res.status(401).json({ Error: "login first"})
+        }
+      }
+      catch(err){
+        console.log(err.message);
+        //send server error response if any
+        res.json({ Error: "server error"})
+      }
+}
+
+exports.change_Password = (req,res,next) => {
+    let { email, oldPassword, newPassword } = req.body;
+        if (!email || !oldPassword || !newPassword)
+          return res.status(400).send("Bad request");
+        try {
+          console.log(email,oldPassword,newPassword)
+          
+         bcrypt.hash(newPassword,10,(err,hash) => {
+            if(err) {
+          return res.status(500).json({error:err});
+          } else {
+            User.findOneAndUpdate({email:email},{password:hash}, {new: true}, (err, doc) => {
+                if (err) {
+                    console.log("Something wrong when updating data!");
+                }
+                return res.status(200).json({message:"login password has been updated "})  
+                })
+           }
+          });
+
+     
+    }
+         catch (err) {
+          console.log(err.message);
+          res.send("incorrect credentials");
+    }
+}
+
 exports.delete_user = (req,res,next) => {
     User.deleteOne({_id: req.params.userId}).exec().then(response => {
         res.status(200).json({message:"User Deleted Succesfully"})
