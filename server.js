@@ -5,9 +5,9 @@ const dotenv = require('dotenv')
 const app = express();
 dotenv.config();
 require('./config/database')
+const cors = require('cors')
 
-
-
+app.use(cors())
 const userRoutes = require('./routes/user')
 const carsRoutes = require('./routes/cars');
 const orderRoutes = require('./routes/orders');

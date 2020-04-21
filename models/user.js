@@ -17,10 +17,10 @@ const userSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    active:{
-        type:String
-    }
-    ,
+    isConfirmed: {
+        type: Boolean,
+        default: false
+    },
     contactNo:{
         type:Number,
         required:true

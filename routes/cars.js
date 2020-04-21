@@ -36,6 +36,11 @@ const upload = multer({
 //This route is used for show all the cars from databse
 router.get('/',CarsController.all_cars);
 
+//if user want to searh any car with its brancdNAME
+router.get('/search/:category',CarsController.search_by_brand)
+router.post('/search/:category',CarsController.search_by_brand)
+
+
 //In this Route we can upload car with its details
 router.post('/sell',auth,upload.single('carImage'),CarsController.sell_car);
 
